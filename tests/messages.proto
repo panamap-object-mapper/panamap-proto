@@ -7,3 +7,7 @@ message Simple {
 message Container {
     Simple value = 1;
 }
+
+message ListOfSimple {
+    repeated Simple value = 1;
+}

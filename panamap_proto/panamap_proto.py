@@ -1,4 +1,4 @@
-from typing import Type, Any, Set, Callable, Dict
+from typing import Type, Any, Set, Callable, Dict, List
 
 from google.protobuf.message import Message
 from google.protobuf.descriptor import FieldDescriptor
@@ -72,12 +72,19 @@ class ProtoMappingDescriptor(MappingDescriptor):
         return False
 
     def _get_field_type(self, field: FieldDescriptor) -> Type[Any]:
-        if field.message_type is not None:
-            return field.message_type._concrete_class
+        repeated = field.label == FieldDescriptor.LABEL_REPEATED
 
-        code = field.type
-        field_type = self.FIELD_CODE_TO_PYTHON_TYPE.get(code)
-        if field_type is not None:
-            return field_type
+        if field.message_type is not None:
+            type = field.message_type._concrete_class
         else:
-            return Any
+            code = field.type
+            field_type = self.FIELD_CODE_TO_PYTHON_TYPE.get(code)
+            if field_type is not None:
+                type = field_type
+            else:
+                type = Any
+
+        if repeated:
+            return List[type]
+        else:
+            return type

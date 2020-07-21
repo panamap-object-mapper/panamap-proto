@@ -1,10 +1,11 @@
 from dataclasses import dataclass
+from typing import List
 from unittest import TestCase
 
 from panamap import Mapper
 from panamap_proto import ProtoMappingDescriptor
 
-from tests.messages_pb2 import Simple, Container
+from tests.messages_pb2 import Simple, Container, ListOfSimple
 
 
 @dataclass
@@ -20,6 +21,11 @@ class BadCasedData:
 @dataclass
 class ContainerData:
     value: SimpleData
+
+
+@dataclass
+class ListOfSimpleData:
+    value: List[SimpleData]
 
 
 class TestProtoMapping(TestCase):
@@ -78,5 +84,33 @@ class TestProtoMapping(TestCase):
         self.assertEqual(data.__class__, ContainerData)
         self.assertEqual(data.value.__class__, SimpleData)
         self.assertEqual(data.value.value, "def")
+
+    def test_list_to_proto_mapping(self):
+        mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
+
+        mapper.mapping(Simple, SimpleData) \
+            .map_matching() \
+            .register()
+        mapper.mapping(ListOfSimple, ListOfSimpleData) \
+            .map_matching() \
+            .register()
+
+        proto = mapper.map(ListOfSimpleData([SimpleData("abc"), SimpleData("def")]), ListOfSimple)
+
+        self.assertEqual(proto.__class__, ListOfSimple)
+        self.assertEqual(len(proto.value), 2)
+        self.assertEqual(proto.value[0].__class__, Simple)
+        self.assertEqual(proto.value[0].value, "abc")
+        self.assertEqual(proto.value[1].__class__, Simple)
+        self.assertEqual(proto.value[1].value, "def")
+
+        # Temporary disabled
+        # data = mapper.map(ListOfSimple(value=[Simple(value="123"), Simple(value="xyz")]), ListOfSimpleData)
+        # self.assertEqual(data.__class__, ListOfSimpleData)
+        # self.assertEqual(len(data.value), 2)
+        # self.assertEqual(data.value[0].__class__, SimpleData)
+        # self.assertEqual(data.value[0].value, "123")
+        # self.assertEqual(data.value[1].__class__, SimpleData)
+        # self.assertEqual(data.value[1].value, "xyzz")
 
 
