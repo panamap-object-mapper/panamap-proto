@@ -136,3 +136,9 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# JetBrains IDE
+.idea/
+
+# Generated python protobuf
+*_pb2.py

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message Simple {
+    string value = 1;
+}
+
+message Container {
+    Simple value = 1;
+}
