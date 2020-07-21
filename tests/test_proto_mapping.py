@@ -32,9 +32,7 @@ class TestProtoMapping(TestCase):
     def test_simple_proto_mapping(self):
         mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
 
-        mapper.mapping(Simple, SimpleData) \
-            .map_matching() \
-            .register()
+        mapper.mapping(Simple, SimpleData).map_matching().register()
 
         s = mapper.map(SimpleData("abc"), Simple)
 
@@ -49,9 +47,7 @@ class TestProtoMapping(TestCase):
     def test_simple_proto_mapping_with_ignore_case(self):
         mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
 
-        mapper.mapping(Simple, BadCasedData) \
-            .map_matching(ignore_case=True) \
-            .register()
+        mapper.mapping(Simple, BadCasedData).map_matching(ignore_case=True).register()
 
         s = mapper.map(BadCasedData("abc"), Simple)
 
@@ -66,12 +62,8 @@ class TestProtoMapping(TestCase):
     def test_container_proto_mapping(self):
         mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
 
-        mapper.mapping(Simple, SimpleData) \
-            .map_matching() \
-            .register()
-        mapper.mapping(Container, ContainerData) \
-            .map_matching() \
-            .register()
+        mapper.mapping(Simple, SimpleData).map_matching().register()
+        mapper.mapping(Container, ContainerData).map_matching().register()
 
         proto = mapper.map(ContainerData(SimpleData("abc")), Container)
 
@@ -88,12 +80,8 @@ class TestProtoMapping(TestCase):
     def test_list_to_proto_mapping(self):
         mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
 
-        mapper.mapping(Simple, SimpleData) \
-            .map_matching() \
-            .register()
-        mapper.mapping(ListOfSimple, ListOfSimpleData) \
-            .map_matching() \
-            .register()
+        mapper.mapping(Simple, SimpleData).map_matching().register()
+        mapper.mapping(ListOfSimple, ListOfSimpleData).map_matching().register()
 
         proto = mapper.map(ListOfSimpleData([SimpleData("abc"), SimpleData("def")]), ListOfSimple)
 
@@ -104,13 +92,10 @@ class TestProtoMapping(TestCase):
         self.assertEqual(proto.value[1].__class__, Simple)
         self.assertEqual(proto.value[1].value, "def")
 
-        # Temporary disabled
-        # data = mapper.map(ListOfSimple(value=[Simple(value="123"), Simple(value="xyz")]), ListOfSimpleData)
-        # self.assertEqual(data.__class__, ListOfSimpleData)
-        # self.assertEqual(len(data.value), 2)
-        # self.assertEqual(data.value[0].__class__, SimpleData)
-        # self.assertEqual(data.value[0].value, "123")
-        # self.assertEqual(data.value[1].__class__, SimpleData)
-        # self.assertEqual(data.value[1].value, "xyzz")
-
-
+        data = mapper.map(ListOfSimple(value=[Simple(value="123"), Simple(value="xyz")]), ListOfSimpleData)
+        self.assertEqual(data.__class__, ListOfSimpleData)
+        self.assertEqual(len(data.value), 2)
+        self.assertEqual(data.value[0].__class__, SimpleData)
+        self.assertEqual(data.value[0].value, "123")
+        self.assertEqual(data.value[1].__class__, SimpleData)
+        self.assertEqual(data.value[1].value, "xyz")

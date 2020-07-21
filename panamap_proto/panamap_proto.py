@@ -2,6 +2,7 @@ from typing import Type, Any, Set, Callable, Dict, List
 
 from google.protobuf.message import Message
 from google.protobuf.descriptor import FieldDescriptor
+from google.protobuf.pyext._message import RepeatedCompositeContainer
 
 from panamap import MappingDescriptor
 from panamap.panamap import T
@@ -40,7 +41,11 @@ class ProtoMappingDescriptor(MappingDescriptor):
 
     def get_getter(self, field_name: str) -> Callable[[T], Any]:
         def getter(t: T) -> Any:
-            return getattr(t, field_name)
+            value = getattr(t, field_name)
+            if isinstance(value, RepeatedCompositeContainer):
+                return list(value)
+            else:
+                return value
 
         return getter
 
