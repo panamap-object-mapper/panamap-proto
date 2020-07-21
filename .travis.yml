@@ -11,6 +11,7 @@ install:
 - python setup.py install
 before_script:
 - pip install nox
+- pip install coveralls
 - protoc --python_out tests/ tests/messages.proto
 script:
 - nox
@@ -32,3 +33,5 @@ jobs:
       on:
         distributions: sdist bdist_wheel
         repo: kirillsulim/panamap-proto
+after_success:
+  - coveralls
