@@ -4,7 +4,7 @@ from unittest import TestCase
 from panamap import Mapper
 from panamap_proto import ProtoMappingDescriptor
 
-from .messages_pb2 import Simple, Container
+from tests.messages_pb2 import Simple, Container
 
 
 @dataclass
@@ -67,8 +67,16 @@ class TestProtoMapping(TestCase):
             .map_matching() \
             .register()
 
-        s = mapper.map(ContainerData(SimpleData("abc")), Container)
+        proto = mapper.map(ContainerData(SimpleData("abc")), Container)
 
-        self.assertEqual(s.__class__, Container)
-        self.assertEqual(s.value.__class__, Simple)
-        self.assertEqual(s.value.value, "abc")
+        self.assertEqual(proto.__class__, Container)
+        self.assertEqual(proto.value.__class__, Simple)
+        self.assertEqual(proto.value.value, "abc")
+
+        data = mapper.map(Container(value=Simple(value="def")), ContainerData)
+
+        self.assertEqual(data.__class__, ContainerData)
+        self.assertEqual(data.value.__class__, SimpleData)
+        self.assertEqual(data.value.value, "def")
+
+

@@ -36,7 +36,7 @@ class ProtoMappingDescriptor(MappingDescriptor):
     def __init__(self, t: Type[T]):
         super(ProtoMappingDescriptor, self).__init__(t)
         self.field_names = {field.name for field in t.DESCRIPTOR.fields}
-        self.field_types = {field.name: self._code_to_type(field.type) for field in t.DESCRIPTOR.fields}
+        self.field_types = {field.name: self._get_field_type(field) for field in t.DESCRIPTOR.fields}
 
     def get_getter(self, field_name: str) -> Callable[[T], Any]:
         def getter(t: T) -> Any:
@@ -71,7 +71,11 @@ class ProtoMappingDescriptor(MappingDescriptor):
     def is_container_type(self) -> bool:
         return False
 
-    def _code_to_type(self, code: int) -> Type[Any]:
+    def _get_field_type(self, field: FieldDescriptor) -> Type[Any]:
+        if field.message_type is not None:
+            return field.message_type._concrete_class
+
+        code = field.type
         field_type = self.FIELD_CODE_TO_PYTHON_TYPE.get(code)
         if field_type is not None:
             return field_type
