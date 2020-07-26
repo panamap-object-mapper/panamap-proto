@@ -3,7 +3,7 @@ from typing import List
 from unittest import TestCase
 from enum import Enum
 
-from panamap import Mapper, value_map
+from panamap import Mapper, values_map
 from panamap_proto import ProtoMappingDescriptor
 
 from tests.messages_pb2 import Simple, Container, ListOfSimple, LangCarrier, Lang
