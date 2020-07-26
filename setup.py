@@ -23,7 +23,12 @@ setup(
     packages=find_packages(include=["panamap_proto",]),
     package_data={"panamap_proto": ["panamap_proto.version",]},
     test_suite="tests",
-    install_requires=["panamap", "protobuf",],
-    classifiers=["Development Status :: 4 - Beta", "License :: OSI Approved :: MIT License",],
+    install_requires=["panamap>=1.1.1", "protobuf",],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+    ],
     keywords="object mapper, protobuf",
 )
