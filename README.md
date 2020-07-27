@@ -2,10 +2,10 @@
 
 [![PyPI version](https://badge.fury.io/py/panamap-proto.svg)](https://badge.fury.io/py/panamap-proto)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/panamap-proto)](https://pypi.org/project/panamap-proto/)
-[![Build Status](https://travis-ci.com/kirillsulim/panamap-proto.svg?branch=master)](https://travis-ci.com/kirillsulim/panamap-proto)
-[![Coveralls github](https://img.shields.io/coveralls/github/kirillsulim/panamap-proto)](https://coveralls.io/github/kirillsulim/panamap-proto)
+[![Build Status](https://travis-ci.com/panamap-object-mapper/panamap-proto.svg?branch=master)](https://travis-ci.com/panamap-object-mapper/panamap-proto)
+[![Coveralls github](https://img.shields.io/coveralls/github/panamap-object-mapper/panamap-proto)](https://coveralls.io/github/panamap-object-mapper/panamap-proto?branch=master)
 
-Panamap-proto adds protobuf support to [panamap object mapper](https://github.com/kirillsulim/panamap).
+Panamap-proto adds protobuf support to [panamap object mapper](https://github.com/panamap-object-mapper/panamap).
 
 ## Installation
 
