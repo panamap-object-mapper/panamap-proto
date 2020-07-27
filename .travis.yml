@@ -32,6 +32,6 @@ jobs:
         secure: "D22vRDOxIdM1MYG23MWVhds2Zmar9fWahtiwAVgyCkzElT52VzVWtMCPJe7OLD0g4daxECG6zKY1txu7t1T6GNuO9DvZCt3LBx/32cxsNFBy3ugvebPh43CUtTzaGnQMx4lKgT79nrh/ZryoVy53nqWte3zWldsjLUrgcpAwM8t4QfFR2dOulNaS4TJdivSI90sG9csBTvfiTp3rdYnKWIu9COq3UXlfdqtELyxyVuwNKPJME3IyuGnYDbUnnnaTbtFaRGWgFixHhC+/FU7bl24HHSLBrPtQsRa+cfeV2Cgkzl4NQiH16LA0CdtDw69zBoyCj6gaLBj0uP0CYkoDDeR00YEaQHyLWVfX3XCf3A15vTI24GPGhtAQQfEN7DYFknpaUQwMoXfAHlBOPZNxTmEBTuyQyoRZms5nvlLNrH7OIg6+LbuQfV4wTHuFUvjMjXpJ/G2hV9gNo2cP4+ki0uXmIViEPB/icwUAO47vs26xFG+Gy962omzYGJdn+izIGVgXr9MtQyJervlbaU/Aix24py0FLMs/5gs+L79vUuzdq2F84Bp/GKvPTt3gq8bwXDd2CrG+Qp0EbuB1AjOkhcdSJyRFg7GBUghhWBQsLy1sjDt2I/0DjwdADH0t7yF/niKmCCPhYWFL/WWlQEbpwW6ggR5tUklZfBS2M0BPbHE="
       on:
         distributions: sdist bdist_wheel
-        repo: kirillsulim/panamap-proto
+        repo: panamap-object-mapper/panamap-proto
 after_success:
   - coveralls
