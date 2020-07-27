@@ -115,19 +115,14 @@ class TestProtoMapping(TestCase):
     def test_map_proto_enum_value(self):
         mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
 
-        mapper.mapping(PyLangCarrier, LangCarrier) \
-            .l_to_r("value", "lang") \
-            .register()
-        mapper.mapping(PyLang, Lang) \
-
+        mapper.mapping(PyLangCarrier, LangCarrier).l_to_r("value", "lang").register()
+        mapper.mapping(PyLang, Lang)
         a = mapper.map(PyLangCarrier("CPP"), LangCarrier)
         self.assertEqual(a.lang, Lang.Value("CPP"))
 
     def test_map_proto_enum_value_with_converter(self):
         mapper = Mapper(custom_descriptors=[ProtoMappingDescriptor])
-        mapper.mapping(PyLang, Lang) \
-            .l_to_r_converter(lambda l: Lang.Value(l.name)) \
-            .register()
+        mapper.mapping(PyLang, Lang).l_to_r_converter(lambda l: Lang.Value(l.name)).register()
 
         proto_lang = mapper.map(PyLang.JAVA, Lang)
         self.assertEqual(proto_lang, Lang.Value("JAVA"))
@@ -141,10 +136,9 @@ class TestProtoMapping(TestCase):
             (PyLang.CPP, Lang.Value("CPP")),
         ]
 
-        mapper.mapping(PyLang, Lang) \
-            .l_to_r_converter(values_map({py: proto for py, proto in pairs})) \
-            .r_to_l_converter(values_map({proto: py for py, proto in pairs})) \
-            .register()
+        mapper.mapping(PyLang, Lang).l_to_r_converter(values_map({py: proto for py, proto in pairs})).r_to_l_converter(
+            values_map({proto: py for py, proto in pairs})
+        ).register()
 
         self.assertEqual(mapper.map(PyLang.JAVA, Lang), Lang.Value("JAVA"))
         self.assertEqual(mapper.map(PyLang.PYTHON, Lang), Lang.Value("PYTHON"))
