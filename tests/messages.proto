@@ -11,3 +11,13 @@ message Container {
 message ListOfSimple {
     repeated Simple value = 1;
 }
+
+enum Lang {
+    PYTHON = 0;
+    CPP = 1;
+    JAVA = 2;
+}
+
+message  LangCarrier {
+    Lang lang = 1;
+}

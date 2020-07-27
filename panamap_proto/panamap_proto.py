@@ -1,7 +1,8 @@
 from typing import Type, Any, Set, Callable, Dict, List
 
+from google.protobuf.internal.enum_type_wrapper import EnumTypeWrapper
 from google.protobuf.message import Message
-from google.protobuf.descriptor import FieldDescriptor
+from google.protobuf.descriptor import FieldDescriptor, EnumDescriptor
 from google.protobuf.pyext._message import RepeatedCompositeContainer
 
 from panamap import MappingDescriptor
@@ -32,12 +33,19 @@ class ProtoMappingDescriptor(MappingDescriptor):
 
     @classmethod
     def supports_type(cls, t: Type[Any]) -> bool:
+        if isinstance(t, EnumTypeWrapper):
+            return True
         return issubclass(t, Message)
 
     def __init__(self, t: Type[T]):
         super(ProtoMappingDescriptor, self).__init__(t)
-        self.field_names = {field.name for field in t.DESCRIPTOR.fields}
-        self.field_types = {field.name: self._get_field_type(field) for field in t.DESCRIPTOR.fields}
+        descriptor = t.DESCRIPTOR
+        if isinstance(descriptor, EnumDescriptor):
+            self.field_names = set()
+            self.field_types = {}
+        else:
+            self.field_names = {field.name for field in t.DESCRIPTOR.fields}
+            self.field_types = {field.name: self._get_field_type(field) for field in t.DESCRIPTOR.fields}
 
     def get_getter(self, field_name: str) -> Callable[[T], Any]:
         def getter(t: T) -> Any:
