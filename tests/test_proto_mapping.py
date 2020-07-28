@@ -138,3 +138,5 @@ class TestProtoMapping(TestCase):
         self.assertEqual(mapper.map(PyLang.CPP, Lang), Lang.Value("CPP"))
 
         c = mapper.map(PyLangCarrier(PyLang.CPP), LangCarrier)
+        self.assertEqual(c.__class__, LangCarrier)
+        self.assertEqual(c.lang, Lang.Value("CPP"))
