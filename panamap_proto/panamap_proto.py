@@ -1,4 +1,4 @@
-from typing import Type, Any, Set, Callable, Dict, List
+from typing import Type, Any, Set, Callable, Dict, List, Optional
 
 from google.protobuf.internal.enum_type_wrapper import EnumTypeWrapper
 from google.protobuf.message import Message
@@ -36,6 +36,11 @@ class ProtoMappingDescriptor(MappingDescriptor):
         if isinstance(t, EnumTypeWrapper):
             return True
         return issubclass(t, Message)
+
+    @classmethod
+    def resolve_type_name(cls, t: Type[Any]) -> Optional[str]:
+        if isinstance(t, EnumTypeWrapper):
+            return t.DESCRIPTOR.name
 
     def __init__(self, t: Type[T]):
         super(ProtoMappingDescriptor, self).__init__(t)
@@ -89,6 +94,8 @@ class ProtoMappingDescriptor(MappingDescriptor):
 
         if field.message_type is not None:
             type = field.message_type._concrete_class
+        elif field.enum_type is not None:
+            type = field.enum_type.name
         else:
             code = field.type
             field_type = self.FIELD_CODE_TO_PYTHON_TYPE.get(code)

@@ -18,6 +18,6 @@ enum Lang {
     JAVA = 2;
 }
 
-message  LangCarrier {
+message LangCarrier {
     Lang lang = 1;
 }
