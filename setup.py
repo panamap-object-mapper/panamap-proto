@@ -23,7 +23,7 @@ setup(
     packages=find_packages(include=["panamap_proto",]),
     package_data={"panamap_proto": ["panamap_proto.version",]},
     test_suite="tests",
-    install_requires=["panamap>=1.2.0", "protobuf",],
+    install_requires=["panamap>=1.2.2", "protobuf",],
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
